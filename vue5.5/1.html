@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="bower_components/vue/dist/vue.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #app {
+            width: 400px;
+            height: 450px;
+            padding-top: 50px;
+            background-color: rgb(65, 141, 174);
+            margin: 0 auto;
+        }
+
+        #title {
+            width: 140px;
+            height: 40px;
+            color: white;
+            font-size: 33px;
+            margin: 0 auto;
+        }
+
+        #main1 {
+            width: 300px;
+            height: 60px;
+            background-color: rgb(230, 66, 111);
+            margin: 10px auto;
+            color: white;
+        }
+        #main1 span:nth-child(1){
+            height: 60px;
+            width:65%;
+            line-height: 60px;
+            margin-left: 20px;
+        }
+        #main1 span:nth-child(2){
+            height: 60px;
+            width:20%;
+            float:right;
+            line-height: 60px;
+        }
+
+        #line {
+            width: 300px;
+            height: 1px;
+            background-color: white;
+            margin: 10px auto;
+        }
+
+        #total {
+            width: 300px;
+            height: 20px;
+            margin: 10px auto;
+            color: white;
+            font-size: 20px;
+        }
+
+        #total span:nth-child(2) {
+            float: right;
+        }
+
+        .a{
+            background-color: orange !important;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <div id="title">Services</div>
+    <div id="main1" v-for="(item,index) in message" :class="{a:item.active}" @click="chicked(item.price,index)" >
+        <span>{{item.name}}</span>
+        <span>{{item.price}}</span>
+    </div>
+    <div id="line"></div>
+    <div id="total"><span>Total:</span><span>{{sum|money}}</span></div>
+</div>
+</body>
+<script>
+    var services = [
+        {
+            name: 'Web Development',
+            price: 300,
+            active: false
+        }, {
+            name: 'Design',
+            price: 400,
+            active: false
+        }, {
+            name: 'Integration',
+            price: 250,
+            active: false
+        }, {
+            name: 'Training',
+            price: 220,
+            active: false
+        }
+    ]
+    Vue.filter('money',function (sum) {
+        return '¥'+sum;
+    });
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            message: services,
+            sum:0
+        },
+        methods:{
+            chicked:function (price,index) {
+                this.message[index].active=!this.message[index].active;
+                if(this.message[index].active==true){
+                    this.sum+=price;
+                }else {
+                    this.sum-=price;
+                }
+
+            }
+        }
+
+    })
+</script>
+</html>
